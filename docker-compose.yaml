@@ -1,0 +1,3 @@
+mll-builder:
+  build: .
+  entrypoint: /bin/bash
