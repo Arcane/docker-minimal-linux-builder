@@ -26,17 +26,5 @@ get_python() {
 	cd ..
 }
 
-build_python() {
-	cd work/python
-	mkdir -p ../rootfs
-	./configure --prefix=$(realpath ../rootfs)
-	make
-	# make test
-	cd ..
-}
-
 # 1. Get Python
 get_python
-
-# 2. Build Python
-build_python

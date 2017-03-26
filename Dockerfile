@@ -21,19 +21,19 @@ WORKDIR     /minimal/src
 
 # That's for ImageVersion of Feb
 RUN			sed -i \
-				"s/^\(.*5_generate_rootfs.sh\)/sh 5_pre_generate_rootfs.sh\n\1\nsh 5_post_generate_rootfs.sh/g" \
+				"s/^\(.*5_generate_rootfs.sh\)/sh 5_pre_generate_rootfs.sh\n\1\nsh 5_post_generate_rootfs.sh\nsh 6_pre_pack_rootfs.sh/g" \
 				build_minimal_linux_live.sh
 
 # Split the file for get and actual build.
-RUN         csplit -f "temp" build_minimal_linux_live.sh "/sh 5_generate/" && \
+RUN         csplit -f "temp" build_minimal_linux_live.sh "/sh 6_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \
 			chmod +x ./*_minimal_linux_live.sh
 
 # Append post script now - to cache result of prepare.
-COPY        ./5_pre_generate_rootfs.sh /minimal/src/
+COPY        ./5_pre_generate_rootfs.sh ./5_post_generate_rootfs.sh ./startup.sh /minimal/src/
 RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
-COPY        ./5_post_generate_rootfs.sh ./startup.sh /minimal/src/
+COPY        ./6_pre_pack_rootfs.sh /minimal/src/
 CMD         ./startup.sh
