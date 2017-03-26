@@ -1,3 +1,5 @@
 mll-builder:
   build: .
-  entrypoint: /bin/bash
+  #entrypoint: /bin/bash
+  volumes:
+    - ./output:/minimal/output

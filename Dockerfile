@@ -1,10 +1,12 @@
 FROM        ubuntu:trusty
 
-ENV         IMG_VERSION 03-Apr-2016
+#ENV         IMG_VERSION 03-Apr-2016
+ENV         IMG_VERSION 07-Feb-2015
 
 # Install dependencies for minimal linux live and qemu, git...
 # see http://minimal.linux-bg.org/
-RUN         DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y \
+RUN         DEBIAN_FRONTEND=noninteractive && \
+			apt-get update && apt-get install -y \
             wget build-essential bc syslinux genisoimage busybox-static \
             libncurses5-dev git tree
 
