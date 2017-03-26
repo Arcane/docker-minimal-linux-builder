@@ -14,10 +14,14 @@ RUN         git clone https://github.com/ivandavidov/minimal/ && \
             cd minimal && \
             git checkout $IMG_VERSION && \
             mkdir -p /minimal/output
-VOLUME		/minimal/output
+ADD         ./*.sh /minimal/src/
 
-#ADD         ./run /minimal/src/
-#ADD         ./fix-dns /minimal/src/
-ADD         ./startup.sh /minimal/src
+# That's for ImageVersion of Feb
+RUN			sed -i \
+				"s/^\(.*5_generate_rootfs.sh\)/sh 5_pre_generate_rootfs.sh\n\1\nsh 5_post_generate_rootfs.sh/g" \
+				/minimal/src/build_minimal_linux_live.sh
+RUN			cat /minimal/src/build_minimal_linux_live.sh
+
+VOLUME		/minimal/output
 WORKDIR     /minimal/src
 CMD         ./startup.sh
