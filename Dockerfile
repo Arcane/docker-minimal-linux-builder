@@ -8,7 +8,7 @@ ENV         IMG_VERSION 20-Jan-2017
 RUN         DEBIAN_FRONTEND=noninteractive && \
 			apt-get update && apt-get install -y \
             wget build-essential bc syslinux-utils genisoimage busybox-static \
-            libncurses5-dev git tree realpath pkg-config time gawk file
+            libncurses5-dev git tree realpath pkg-config time gawk file cpio
 
 RUN         git clone https://github.com/ivandavidov/minimal/ && \
             cd minimal && \
@@ -18,13 +18,14 @@ RUN         git clone https://github.com/ivandavidov/minimal/ && \
 VOLUME		/minimal/output
 WORKDIR     /minimal/src
 
-# That's for ImageVersion of Feb
+# Fixing scripts
 RUN			sed -i \
 				"s/^\(.*09_generate_rootfs.sh\)/time sh 09_pre_generate_rootfs.sh\n\1\ntime sh 09_post_generate_rootfs.sh\ntime sh 10_pre_pack_rootfs.sh/g" \
-				build_minimal_linux_live.sh
-
-# Split the file for get and actual build.
-RUN         csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
+				build_minimal_linux_live.sh && \
+			sed -i \
+				"s/^#OVERLAY_BUNDLES=mll_utils/OVERLAY_BUNDLES=glibc_full/g" \
+				.config && \
+            csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \
 			chmod +x ./*_minimal_linux_live.sh
