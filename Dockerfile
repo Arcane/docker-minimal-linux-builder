@@ -1,15 +1,14 @@
-FROM        ubuntu:trusty
+FROM        ubuntu:xenial
 
 #TODO: Upgrade to this version:
-#ENV         IMG_VERSION 20-Jan-2017
-ENV         IMG_VERSION 07-Feb-2015
+ENV         IMG_VERSION 20-Jan-2017
 
 # Install dependencies for minimal linux live and qemu, git...
 # see http://minimal.linux-bg.org/
 RUN         DEBIAN_FRONTEND=noninteractive && \
 			apt-get update && apt-get install -y \
-            wget build-essential bc syslinux genisoimage busybox-static \
-            libncurses5-dev git tree realpath pkg-config
+            wget build-essential bc syslinux-utils genisoimage busybox-static \
+            libncurses5-dev git tree realpath pkg-config time gawk file
 
 RUN         git clone https://github.com/ivandavidov/minimal/ && \
             cd minimal && \
@@ -21,19 +20,19 @@ WORKDIR     /minimal/src
 
 # That's for ImageVersion of Feb
 RUN			sed -i \
-				"s/^\(.*5_generate_rootfs.sh\)/sh 5_pre_generate_rootfs.sh\n\1\nsh 5_post_generate_rootfs.sh\nsh 6_pre_pack_rootfs.sh/g" \
+				"s/^\(.*09_generate_rootfs.sh\)/time sh 09_pre_generate_rootfs.sh\n\1\ntime sh 09_post_generate_rootfs.sh\ntime sh 10_pre_pack_rootfs.sh/g" \
 				build_minimal_linux_live.sh
 
 # Split the file for get and actual build.
-RUN         csplit -f "temp" build_minimal_linux_live.sh "/sh 6_pre_pack/" && \
+RUN         csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \
 			chmod +x ./*_minimal_linux_live.sh
 
 # Append post script now - to cache result of prepare.
-COPY        ./5_pre_generate_rootfs.sh ./5_post_generate_rootfs.sh ./startup.sh /minimal/src/
+COPY        ./09_pre_generate_rootfs.sh ./09_post_generate_rootfs.sh ./startup.sh /minimal/src/
 RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
-COPY        ./6_pre_pack_rootfs.sh /minimal/src/
+COPY        ./10_pre_pack_rootfs.sh /minimal/src/
 CMD         ./startup.sh
