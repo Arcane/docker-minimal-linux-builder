@@ -44,4 +44,9 @@
 # 	cd ../..
 # }
 
-echo "Pre Pack - Copy Application"
+fix_rootfs() {
+	cp -Rfp rootfs_merge/* work/rootfs/
+}
+
+echo "Pre Pack - Fixing RootFS"
+fix_rootfs

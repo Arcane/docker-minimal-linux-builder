@@ -22,9 +22,6 @@ WORKDIR     /minimal/src
 RUN			sed -i \
 				"s/^\(.*09_generate_rootfs.sh\)/time sh 09_pre_generate_rootfs.sh\n\1\ntime sh 09_post_generate_rootfs.sh\ntime sh 10_pre_pack_rootfs.sh/g" \
 				build_minimal_linux_live.sh && \
-			sed -i \
-				"s/^#OVERLAY_BUNDLES=mll_utils/OVERLAY_BUNDLES=glibc_full/g" \
-				.config && \
             csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \
@@ -36,4 +33,5 @@ RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
 COPY        ./10_pre_pack_rootfs.sh /minimal/src/
+COPY        rootfs_merge /minimal/src/rootfs_merge
 CMD         ./startup.sh
