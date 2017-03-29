@@ -41,6 +41,9 @@
 export PYTHONPATH="/lib/python3.6:/lib/python3.6/lib-dynload:/lib/python3.6/site-packages"
 export PYTHONHOME="/lib/python3.6"
 
+# Mount mtab
+ln -s /proc/self/mounts /etc/mtab
+
 # Use default initialization logic based on configuration in '/etc/inittab'.
 exec /sbin/init
 
