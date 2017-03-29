@@ -22,6 +22,9 @@ WORKDIR     /minimal/src
 RUN			sed -i \
 				"s/^\(.*09_generate_rootfs.sh\)/time sh 09_pre_generate_rootfs.sh\n\1\ntime sh 09_post_generate_rootfs.sh\ntime sh 10_pre_pack_rootfs.sh/g" \
 				build_minimal_linux_live.sh && \
+			sed -i \
+				"s/^\(.*02_build_kernel.sh\)/time sh 02_pre_build_kernel.sh\n\1/g" \
+				build_minimal_linux_live.sh && \
             csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \
@@ -29,7 +32,8 @@ RUN			sed -i \
 
 # Append post script now - to cache result of prepare.
 COPY        rootfs_merge /minimal/src/rootfs_merge
-COPY        ./09_pre_generate_rootfs.sh ./09_post_generate_rootfs.sh ./startup.sh /minimal/src/
+COPY        kernel_patches /minimal/src/kernel_patches
+COPY        ./02_pre_build_kernel.sh ./09_pre_generate_rootfs.sh ./09_post_generate_rootfs.sh ./startup.sh /minimal/src/
 RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
