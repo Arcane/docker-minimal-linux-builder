@@ -38,7 +38,7 @@
 # exec /sbin/init
 
 # Set up python enviorment
-export PYTHONPATH="/lib/python3.6"
+export PYTHONPATH="/lib/python3.6:/lib/python3.6/lib-dynload:/lib/python3.6/site-packages"
 export PYTHONHOME="/lib/python3.6"
 
 # Use default initialization logic based on configuration in '/etc/inittab'.
