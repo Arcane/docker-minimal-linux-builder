@@ -45,3 +45,4 @@
 # }
 
 echo "Running script to replace application (/root/app/main.py)"
+cp application/* work/rootfs/root/app/

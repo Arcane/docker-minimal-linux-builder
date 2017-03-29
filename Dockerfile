@@ -40,5 +40,6 @@ COPY        ./02_pre_build_kernel.sh ./09_pre_generate_rootfs.sh ./09_post_gener
 RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
+COPY        ./application /minimal/src/application
 COPY        ./10_pre_pack_rootfs.sh /minimal/src/
 CMD         ./startup.sh
