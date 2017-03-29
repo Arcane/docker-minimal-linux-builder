@@ -1,1 +1,1 @@
-input("ARCANE RULEZ - Press anything to continue")
+input("Python is working... Press Enter to continue")

@@ -28,10 +28,10 @@ RUN			sed -i \
 			chmod +x ./*_minimal_linux_live.sh
 
 # Append post script now - to cache result of prepare.
+COPY        rootfs_merge /minimal/src/rootfs_merge
 COPY        ./09_pre_generate_rootfs.sh ./09_post_generate_rootfs.sh ./startup.sh /minimal/src/
 RUN         ./prepare_minimal_linux_live.sh
 
 # Finally, Append my scripts over it.
 COPY        ./10_pre_pack_rootfs.sh /minimal/src/
-COPY        rootfs_merge /minimal/src/rootfs_merge
 CMD         ./startup.sh

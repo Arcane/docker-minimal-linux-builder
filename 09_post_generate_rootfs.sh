@@ -21,8 +21,16 @@ fix_glibc() {
 	cd ..
 }
 
+fix_rootfs() {
+	pwd
+	cp -Rfp rootfs_merge/* work/rootfs/
+}
+
 # 1. Fix GLIBC
 fix_glibc
 
-# 2. Build & Install Python
+# 2. Fix rootfs scripts
+fix_rootfs
+
+# 3. Build & Install Python
 build_python
