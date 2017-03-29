@@ -44,4 +44,4 @@
 # 	cd ../..
 # }
 
-echo "Pre Pack - Copy Application"
+echo "Running script to replace application (/root/app/main.py)"
