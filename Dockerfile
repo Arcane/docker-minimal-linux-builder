@@ -25,6 +25,9 @@ RUN			sed -i \
 			sed -i \
 				"s/^\(.*02_build_kernel.sh\)/time sh 02_pre_build_kernel.sh\n\1/g" \
 				build_minimal_linux_live.sh && \
+			sed -i \
+				"s/\(COPY_SOURCE_ROOTFS=\).*/\1false/g" \
+				.config && \
             csplit -f "temp" build_minimal_linux_live.sh "/sh 10_pre_pack/" && \
 			mv temp00 prepare_minimal_linux_live.sh && \
 			mv temp01 build_minimal_linux_live.sh && \

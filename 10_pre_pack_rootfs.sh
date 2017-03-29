@@ -44,37 +44,4 @@
 # 	cd ../..
 # }
 
-# TODO: Should replace
-# get_picotui() {
-# 	DOWNLOAD_URL=https://github.com/pfalcon/picotui/archive/v0.8.tar.gz
-#  	ARCHIVE_FILE=${DOWNLOAD_URL##*/}
-#  	EXTRACTED_DIR=picotui-0.8
-#
-#  	cd source || exit 1
-#
-#  	# Downloading static python binary
-#  	# -c option allows the download to resume
-#  	wget -c $DOWNLOAD_URL
-#  	rm -rf $EXTRACTED_DIR
-#  	tar -zxf $ARCHIVE_FILE
-#
-#  	rm -rf ../work/picotui
-#
-#  	# Copy static python to folder 'picotui'
-#  	mv $EXTRACTED_DIR ../work/picotui
-#
-#  	cd ..
-# }
-#
-# install_picotui() {
-# 	cd work/picotui
-# 	cp -Rfp picotui ../rootfs/lib/python3.6/site-packages/
-# 	cd ..
-# }
-#
-# echo "Downloading PicoTUI Library"
-# get_picotui
-#
-# echo "Installing Picotui"
-# install_picotui
 echo "Running script to replace application (/root/app/main.py)"
